@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package Protocol;
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "Google.Protobuf.Protocol.Match";
+
+/*
+    
+Match Connection Server 패킷 목록
+1. 유저 인증 (JWT 토큰을 통해 인증 진행하고 인증 여부를 반환)
+2. 매칭 시도 (클라이언트의 요청을 검증하고 매칭을 시작, 매칭 성공 여부를 클라이언트에 전달)
+
+*/
+
+enum MsgId {
+  C_MATCHING = 0; // 매칭 요청
+  S_MATCHING = 1; // 매칭 결과
+}
+
+message C_Matching {
+  string token = 1;             // JWT 토큰
+  MatchInfo matchInfo = 2;      // 매칭 정보
+
+  message MatchInfo{
+      int32 characterId = 1;    // 사용할 캐릭터 ID
+      int32 skinId = 2;         // 사용할 스킨 ID
+      string mode = 3;          // 매칭을 요청할 게임모드
+  }
+}
+
+message S_Matching {
+  AuthResult authResult = 1;    // 인증 결과
+  string roodId = 2;            // 방 식별번호
+  string password = 3;          // 방 비밀번호
+  string ip = 4;                // 접속할 게임서버 IP
+  string port = 5;              // 접속할 게임서버 포트번호
+  
+  enum AuthResult {
+    SUCCESS = 0;                // 인증 성공
+    INVALID_TOKEN = 1;          // 잘못된 토큰
+    USER_NOT_FOUND = 2;         // 유저를 찾을 수 없음
+    ACCESS_DENIED = 3;          // 접근 거부
+  }
+}
