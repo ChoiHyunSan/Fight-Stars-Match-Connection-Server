@@ -7,7 +7,7 @@ namespace Server.Contents
 {
     public class JwtUtils
     {
-        private static readonly string _secret = "YOUR_SECRET_KEY_FROM_SPRING"; // 환경변수로 분리 가능
+        private static readonly string _secret = Config.JwtSecret; 
         private static readonly TokenValidationParameters _validationParams = new()
         {
             ValidateIssuer = false,
@@ -31,14 +31,9 @@ namespace Server.Contents
             }
         }
 
-        public static long? GetUserId(ClaimsPrincipal principal)
+        public static long GetUserId(ClaimsPrincipal principal)
         {
-            return long.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) ? userId : null;
-        }
-
-        public static string? GetRole(ClaimsPrincipal principal)
-        {
-            return principal.FindFirstValue(ClaimTypes.Role);
+            return long.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) ? userId : 0;
         }
     }
 }

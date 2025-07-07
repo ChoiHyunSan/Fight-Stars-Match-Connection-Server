@@ -6,7 +6,7 @@ using ServerCore;
 
 class PacketHandler
 {
-    public static void C_MatchingHandler(PacketSession session, IMessage message)
+    public static async void C_MatchingHandler(PacketSession session, IMessage message)
     {
         C_Matching? packet = message as C_Matching;
         ClientSession? clientSession = session as ClientSession;
@@ -15,6 +15,6 @@ class PacketHandler
             Console.WriteLine("Received invalid C_Matching packet.");
             return;
         }
-        MatchManager.match(clientSession, packet);
+        await MatchManager.match(clientSession, packet);
     }
 }
