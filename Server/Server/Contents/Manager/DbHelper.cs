@@ -10,15 +10,17 @@ namespace Server.Contents.Manager
         public static async Task<bool> HasCharacterAndSkinAsync(long userId, long characterId, long skinId)
         {
             const string sql = @"
-            SELECT EXISTS (
-              SELECT 1
-              FROM user_characters uc
-              JOIN user_skins us
-                ON uc.game_user_id = us.game_user_id
-              WHERE uc.game_user_id = @UserId
-                AND uc.character_id = @CharacterId
-                AND us.skin_id = @SkinId
-            )";
+                SELECT EXISTS (
+                  SELECT 1
+                  FROM user_characters uc
+                  JOIN user_skins us
+                    ON uc.game_user_id = us.game_user_id
+                  WHERE uc.game_user_id = (
+                    SELECT id FROM game_users WHERE auth_user = @UserId
+                  )
+                    AND uc.character_id = @CharacterId
+                    AND us.skin_id = @SkinId
+                )";
 
             await using var conn = new MySqlConnection(_connStr);
             

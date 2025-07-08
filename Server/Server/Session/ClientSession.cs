@@ -2,13 +2,15 @@
 using System.Net;
 using Google.Protobuf.Protocol.Match;
 using Google.Protobuf;
+using Server.Contents;
 
 namespace Server
 {
 	public class ClientSession : PacketSession
 	{
 		public int SessionId { get; set; }
-		
+        public long UserId { get; set; }
+        public event Action<ClientSession>? Disconnected;
 
         public void Send(IMessage packet)
 		{
@@ -36,7 +38,10 @@ namespace Server
 
 		public override void OnDisconnected(EndPoint endPoint)
 		{
-			SessionManager.Instance.Remove(this);
+            Console.WriteLine($"OnDisConnected : {endPoint}");
+            Disconnected?.Invoke(this);
+
+            SessionManager.Instance.Remove(this);
         }
 
 		public override void OnSend(int numOfBytes)

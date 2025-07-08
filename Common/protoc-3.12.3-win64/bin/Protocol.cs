@@ -30,8 +30,8 @@ namespace Google.Protobuf.Protocol.Match {
             "aEluZm8aPgoJTWF0Y2hJbmZvEhMKC2NoYXJhY3RlcklkGAEgASgFEg4KBnNr",
             "aW5JZBgCIAEoBRIMCgRtb2RlGAMgASgJIv0BCgpTX01hdGNoaW5nEjMKCmF1",
             "dGhSZXN1bHQYASABKA4yHy5Qcm90b2NvbC5TX01hdGNoaW5nLkF1dGhSZXN1",
-            "bHQSDgoGcm9vZElkGAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEgoKAmlwGAQg",
-            "ASgJEgwKBHBvcnQYBSABKAkifgoKQXV0aFJlc3VsdBILCgdTVUNDRVNTEAAS",
+            "bHQSDgoGcm9vbUlkGAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEgoKAmlwGAQg",
+            "ASgJEgwKBHBvcnQYBSABKAUifgoKQXV0aFJlc3VsdBILCgdTVUNDRVNTEAAS",
             "EQoNSU5WQUxJRF9UT0tFThABEhIKDlVTRVJfTk9UX0ZPVU5EEAISEQoNQUND",
             "RVNTX0RFTklFRBADEhQKEEFMUkVBRFlfSU5fTUFUQ0gQBBITCg9JTlZBTElE",
             "X1JFUVVFU1QQBSonCgVNc2dJZBIOCgpDX01BVENISU5HEAASDgoKU19NQVRD",
@@ -41,7 +41,7 @@ namespace Google.Protobuf.Protocol.Match {
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.Match.MsgId), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Match.C_Matching), global::Google.Protobuf.Protocol.Match.C_Matching.Parser, new[]{ "Token", "MatchInfo" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Match.C_Matching.Types.MatchInfo), global::Google.Protobuf.Protocol.Match.C_Matching.Types.MatchInfo.Parser, new[]{ "CharacterId", "SkinId", "Mode" }, null, null, null, null)}),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Match.S_Matching), global::Google.Protobuf.Protocol.Match.S_Matching.Parser, new[]{ "AuthResult", "RoodId", "Password", "Ip", "Port" }, null, new[]{ typeof(global::Google.Protobuf.Protocol.Match.S_Matching.Types.AuthResult) }, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Match.S_Matching), global::Google.Protobuf.Protocol.Match.S_Matching.Parser, new[]{ "AuthResult", "RoomId", "Password", "Ip", "Port" }, null, new[]{ typeof(global::Google.Protobuf.Protocol.Match.S_Matching.Types.AuthResult) }, null, null)
           }));
     }
     #endregion
@@ -458,7 +458,7 @@ namespace Google.Protobuf.Protocol.Match {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public S_Matching(S_Matching other) : this() {
       authResult_ = other.authResult_;
-      roodId_ = other.roodId_;
+      roomId_ = other.roomId_;
       password_ = other.password_;
       ip_ = other.ip_;
       port_ = other.port_;
@@ -484,17 +484,17 @@ namespace Google.Protobuf.Protocol.Match {
       }
     }
 
-    /// <summary>Field number for the "roodId" field.</summary>
-    public const int RoodIdFieldNumber = 2;
-    private string roodId_ = "";
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 2;
+    private string roomId_ = "";
     /// <summary>
     /// 방 식별번호
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RoodId {
-      get { return roodId_; }
+    public string RoomId {
+      get { return roomId_; }
       set {
-        roodId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -528,15 +528,15 @@ namespace Google.Protobuf.Protocol.Match {
 
     /// <summary>Field number for the "port" field.</summary>
     public const int PortFieldNumber = 5;
-    private string port_ = "";
+    private int port_;
     /// <summary>
     /// 접속할 게임서버 포트번호
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Port {
+    public int Port {
       get { return port_; }
       set {
-        port_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        port_ = value;
       }
     }
 
@@ -554,7 +554,7 @@ namespace Google.Protobuf.Protocol.Match {
         return true;
       }
       if (AuthResult != other.AuthResult) return false;
-      if (RoodId != other.RoodId) return false;
+      if (RoomId != other.RoomId) return false;
       if (Password != other.Password) return false;
       if (Ip != other.Ip) return false;
       if (Port != other.Port) return false;
@@ -565,10 +565,10 @@ namespace Google.Protobuf.Protocol.Match {
     public override int GetHashCode() {
       int hash = 1;
       if (AuthResult != global::Google.Protobuf.Protocol.Match.S_Matching.Types.AuthResult.Success) hash ^= AuthResult.GetHashCode();
-      if (RoodId.Length != 0) hash ^= RoodId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (Password.Length != 0) hash ^= Password.GetHashCode();
       if (Ip.Length != 0) hash ^= Ip.GetHashCode();
-      if (Port.Length != 0) hash ^= Port.GetHashCode();
+      if (Port != 0) hash ^= Port.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -586,9 +586,9 @@ namespace Google.Protobuf.Protocol.Match {
         output.WriteRawTag(8);
         output.WriteEnum((int) AuthResult);
       }
-      if (RoodId.Length != 0) {
+      if (RoomId.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(RoodId);
+        output.WriteString(RoomId);
       }
       if (Password.Length != 0) {
         output.WriteRawTag(26);
@@ -598,9 +598,9 @@ namespace Google.Protobuf.Protocol.Match {
         output.WriteRawTag(34);
         output.WriteString(Ip);
       }
-      if (Port.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Port);
+      if (Port != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Port);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -613,8 +613,8 @@ namespace Google.Protobuf.Protocol.Match {
       if (AuthResult != global::Google.Protobuf.Protocol.Match.S_Matching.Types.AuthResult.Success) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AuthResult);
       }
-      if (RoodId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoodId);
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (Password.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
@@ -622,8 +622,8 @@ namespace Google.Protobuf.Protocol.Match {
       if (Ip.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Ip);
       }
-      if (Port.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Port);
+      if (Port != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Port);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -639,8 +639,8 @@ namespace Google.Protobuf.Protocol.Match {
       if (other.AuthResult != global::Google.Protobuf.Protocol.Match.S_Matching.Types.AuthResult.Success) {
         AuthResult = other.AuthResult;
       }
-      if (other.RoodId.Length != 0) {
-        RoodId = other.RoodId;
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
       }
       if (other.Password.Length != 0) {
         Password = other.Password;
@@ -648,7 +648,7 @@ namespace Google.Protobuf.Protocol.Match {
       if (other.Ip.Length != 0) {
         Ip = other.Ip;
       }
-      if (other.Port.Length != 0) {
+      if (other.Port != 0) {
         Port = other.Port;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -667,7 +667,7 @@ namespace Google.Protobuf.Protocol.Match {
             break;
           }
           case 18: {
-            RoodId = input.ReadString();
+            RoomId = input.ReadString();
             break;
           }
           case 26: {
@@ -678,8 +678,8 @@ namespace Google.Protobuf.Protocol.Match {
             Ip = input.ReadString();
             break;
           }
-          case 42: {
-            Port = input.ReadString();
+          case 40: {
+            Port = input.ReadInt32();
             break;
           }
         }

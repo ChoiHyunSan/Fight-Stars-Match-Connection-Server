@@ -30,10 +30,10 @@ message C_Matching {
 
 message S_Matching {
   AuthResult authResult = 1;    // 인증 결과
-  string roodId = 2;            // 방 식별번호
+  string roomId = 2;            // 방 식별번호
   string password = 3;          // 방 비밀번호
   string ip = 4;                // 접속할 게임서버 IP
-  string port = 5;              // 접속할 게임서버 포트번호
+  int32 port = 5;               // 접속할 게임서버 포트번호
   
   enum AuthResult {
     SUCCESS = 0;                // 인증 성공

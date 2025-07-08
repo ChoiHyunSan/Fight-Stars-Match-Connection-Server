@@ -1,4 +1,6 @@
-﻿using Server.Contents.Manager;
+﻿using Google.Protobuf.Protocol.Match;
+using Server.Contents;
+using Server.Contents.Manager;
 using System.Text.Json;
 
 public class MatchSubscriberWorker
@@ -13,8 +15,24 @@ public class MatchSubscriberWorker
             try
             {
                 RoomInfo info = JsonSerializer.Deserialize<RoomInfo>(message!)!;
-                // TODO : 클라이언트가 아직 매칭 대기중이라면, 매칭 정보를 전달한다.
+
                 Console.WriteLine($"GameServer IP : {info.Ip}, User ID : {info.UserId}");
+                
+                var clientSession = MatchManager.FindClientSession(info.UserId);
+                if(clientSession == null)
+                {
+                    return;
+                }
+
+                S_Matching packet = new S_Matching
+                {
+                    Ip = info.Ip,
+                    Port = info.Port,
+                    RoomId = info.RoomId,
+                    Password = info.Password,
+                    AuthResult = S_Matching.Types.AuthResult.Success
+                };
+                clientSession.Send(packet);
             }
             catch (Exception ex)
             {
@@ -25,6 +43,6 @@ public class MatchSubscriberWorker
         Console.WriteLine($"[REDIS SUB] subscribed to {ch}");
     }
 
-    public record RoomInfo(string Ip, int Port, string RoomId, long UserId);
+    public record RoomInfo(string Ip, int Port, string RoomId, string Password, long UserId);
 }
 

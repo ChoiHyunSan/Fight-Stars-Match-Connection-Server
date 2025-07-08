@@ -1,11 +1,37 @@
 ﻿
 using Google.Protobuf.Protocol.Match;
 using Server.Contents.Manager;
+using System.Collections.Concurrent;
 
 namespace Server.Contents
 {
     public static class MatchManager
     {
+        private static readonly ConcurrentDictionary<long, ClientSession> MatchSessions = new();
+
+        public static bool TryAddMatchSession(long userId, ClientSession session)
+        {
+            if (MatchSessions.TryAdd(userId, session))
+            {
+                session.UserId = userId;
+                session.Disconnected += OnSessionDisconnected;
+                return true;
+            }
+            return false; 
+        }
+
+        public static ClientSession FindClientSession(long userId)
+        {
+            MatchSessions.TryGetValue(userId, out var session);
+            return session;
+        }   
+
+        private static void OnSessionDisconnected(ClientSession session)
+        {
+            MatchSessions.TryRemove(session.UserId, out _);
+            RedisHelper.CancelMatchAsync(session.UserId).Wait();
+        }
+
         public static async Task Match(ClientSession clientSession, C_Matching packet)
         {
             Console.WriteLine($"Match Request, Character ID : {packet.MatchInfo.CharacterId}");
@@ -30,6 +56,8 @@ namespace Server.Contents
                 SendFailResult(clientSession, S_Matching.Types.AuthResult.InvalidRequest);
                 return;
             }
+
+            TryAddMatchSession(userId, clientSession);
 
             // 3. 매칭 요청 처리 (Redis 접근이 필요)
             if (!await RedisHelper.EnqueueMatchAsync(MatchRequest.create(userId, packet)))
