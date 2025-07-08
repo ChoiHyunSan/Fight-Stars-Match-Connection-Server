@@ -1,6 +1,11 @@
 ﻿
+using System.Net;
+
 public static class Config
 {
+    public static readonly string Host;
+    public static readonly int Port;
+
     public static readonly string JwtSecret;
     public static readonly string MySqlConn;
     public static readonly string RedisConn;
@@ -8,6 +13,13 @@ public static class Config
 
     static Config()
     {
+        Host = Environment.GetEnvironmentVariable("HOST")
+            ?? Dns.GetHostName();
+
+        Port = Environment.GetEnvironmentVariable("PORT") is string portStr && int.TryParse(portStr, out var port)
+            ? port
+            : 6666;
+
         JwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET")
                 ?? "qwlkfduiwqhrfkeunfsdukfasfzjbcxffeqkufhqerkuhdkfzushfasdfsfqetqet";
 

@@ -5,33 +5,10 @@ namespace Server
 {
 	class Program
 	{
-		static Listener _listener = new Listener();
-
-		static void FlushRoom()
-		{
-			JobTimer.Instance.Push(FlushRoom, 250);
-		}
-
 		static async Task Main(string[] args)
 		{
 			await MatchSubscriberWorker.StartAsync();
-
-            // DNS (Domain Name System)
-            string host = Dns.GetHostName();
-			IPHostEntry ipHost = Dns.GetHostEntry(host);
-			IPAddress ipAddr = ipHost.AddressList[0];
-			IPEndPoint endPoint = new IPEndPoint(ipAddr, 6666);
-
-			_listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
-			Console.WriteLine("Listening...");
-
-			//FlushRoom();
-			JobTimer.Instance.Push(FlushRoom);
-
-			while (true)
-			{
-				JobTimer.Instance.Flush();
-			}
-		}
+			MatchConnectionServerWorker.Start(args);
+        }
 	}
 }
