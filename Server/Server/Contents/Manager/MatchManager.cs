@@ -22,20 +22,19 @@ namespace Server.Contents
             var userId = JwtUtils.GetUserId(principal);
             if(userId == 0L)
             {
-                SendFailResult(clientSession, S_Matching.Types.AuthResult.InvalidToken);
+                SendFailResult(clientSession, S_Matching.Types.AuthResult.UserNotFound);
                 return;
             }
             if(!await DbHelper.HasCharacterAndSkinAsync(userId, packet.MatchInfo.CharacterId, packet.MatchInfo.SkinId))
             {
-                SendFailResult(clientSession, S_Matching.Types.AuthResult.UserNotFound);
+                SendFailResult(clientSession, S_Matching.Types.AuthResult.InvalidRequest);
                 return;
             }
 
             // 3. 매칭 요청 처리 (Redis 접근이 필요)
             if (!await RedisHelper.EnqueueMatchAsync(MatchRequest.create(userId, packet)))
             {
-                // TODO : ALREDY_IN_MATCH Enum 값을 추가해서 수정하기
-                SendFailResult(clientSession, S_Matching.Types.AuthResult.AccessDenied);
+                SendFailResult(clientSession, S_Matching.Types.AuthResult.AlreadyInMatch);
                 return;
             }
 

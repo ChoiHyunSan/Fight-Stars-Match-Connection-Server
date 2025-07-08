@@ -28,14 +28,15 @@ namespace Google.Protobuf.Protocol.Match {
             "aW1lc3RhbXAucHJvdG8ijgEKCkNfTWF0Y2hpbmcSDQoFdG9rZW4YASABKAkS",
             "MQoJbWF0Y2hJbmZvGAIgASgLMh4uUHJvdG9jb2wuQ19NYXRjaGluZy5NYXRj",
             "aEluZm8aPgoJTWF0Y2hJbmZvEhMKC2NoYXJhY3RlcklkGAEgASgFEg4KBnNr",
-            "aW5JZBgCIAEoBRIMCgRtb2RlGAMgASgJItIBCgpTX01hdGNoaW5nEjMKCmF1",
+            "aW5JZBgCIAEoBRIMCgRtb2RlGAMgASgJIv0BCgpTX01hdGNoaW5nEjMKCmF1",
             "dGhSZXN1bHQYASABKA4yHy5Qcm90b2NvbC5TX01hdGNoaW5nLkF1dGhSZXN1",
             "bHQSDgoGcm9vZElkGAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEgoKAmlwGAQg",
-            "ASgJEgwKBHBvcnQYBSABKAkiUwoKQXV0aFJlc3VsdBILCgdTVUNDRVNTEAAS",
+            "ASgJEgwKBHBvcnQYBSABKAkifgoKQXV0aFJlc3VsdBILCgdTVUNDRVNTEAAS",
             "EQoNSU5WQUxJRF9UT0tFThABEhIKDlVTRVJfTk9UX0ZPVU5EEAISEQoNQUND",
-            "RVNTX0RFTklFRBADKicKBU1zZ0lkEg4KCkNfTUFUQ0hJTkcQABIOCgpTX01B",
-            "VENISU5HEAFCIaoCHkdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbC5NYXRjaGIG",
-            "cHJvdG8z"));
+            "RVNTX0RFTklFRBADEhQKEEFMUkVBRFlfSU5fTUFUQ0gQBBITCg9JTlZBTElE",
+            "X1JFUVVFU1QQBSonCgVNc2dJZBIOCgpDX01BVENISU5HEAASDgoKU19NQVRD",
+            "SElORxABQiGqAh5Hb29nbGUuUHJvdG9idWYuUHJvdG9jb2wuTWF0Y2hiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.Match.MsgId), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -706,6 +707,14 @@ namespace Google.Protobuf.Protocol.Match {
         /// 접근 거부
         /// </summary>
         [pbr::OriginalName("ACCESS_DENIED")] AccessDenied = 3,
+        /// <summary>
+        /// 이미 매칭 중   
+        /// </summary>
+        [pbr::OriginalName("ALREADY_IN_MATCH")] AlreadyInMatch = 4,
+        /// <summary>
+        /// 잘못된 요청 (예: 가지고 있지 않은 캐릭터 ID 요청 등)
+        /// </summary>
+        [pbr::OriginalName("INVALID_REQUEST")] InvalidRequest = 5,
       }
 
     }
