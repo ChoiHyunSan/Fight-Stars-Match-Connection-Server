@@ -11,6 +11,8 @@ public static class Config
     public static readonly string RedisConn;
     public static readonly string ServerId;
 
+    public static readonly int MatchTtl;
+
     static Config()
     {
         Host = Environment.GetEnvironmentVariable("HOST")
@@ -31,6 +33,10 @@ public static class Config
 
         ServerId = Environment.GetEnvironmentVariable("CONN_SERVER_ID") 
             ?? "ConnSrv-1";
+
+        MatchTtl = Environment.GetEnvironmentVariable("MATCH_TTL") is string matchTtlStr && int.TryParse(matchTtlStr, out var matchTtl)
+            ? matchTtl
+            : 30000; 
     }
 
 

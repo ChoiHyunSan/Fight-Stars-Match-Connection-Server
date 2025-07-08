@@ -10,8 +10,6 @@
         private static IDatabase DB => _lazy.Value.GetDatabase();
         private static ConnectionMultiplexer Redis => _lazy.Value;
 
-        private const int MatchTtl = 30000;
-
         private const string EnqueueLua = 
             @"if redis.call('SETNX', KEYS[2], 1) == 0 then return 0 end
             redis.call('EXPIRE', KEYS[2], ARGV[2])
@@ -24,7 +22,7 @@
             var ok = (int)await DB.ScriptEvaluateAsync(
                 EnqueueLua,
                 new RedisKey[] { $"match:queue:{req.Mode}", $"in_match:{req.UserId}" },
-                new RedisValue[] { json, MatchTtl });
+                new RedisValue[] { json, Config.MatchTtl });
             return ok == 1;
         }
 
@@ -35,13 +33,5 @@
         {
             return Redis.GetSubscriber();
         }
-    }
-    public class MatchRequest
-    {
-        public long UserId { get; set; }
-        public long CharacterId { get; set; }
-        public long SkinId { get; set; }
-        public string ConnectionServerId { get; set; }
-        public string Mode { get; set; } 
     }
 }
