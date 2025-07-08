@@ -12,8 +12,10 @@ namespace Server
 			JobTimer.Instance.Push(FlushRoom, 250);
 		}
 
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
+			await MatchSubscriberWorker.StartAsync();
+
             // DNS (Domain Name System)
             string host = Dns.GetHostName();
 			IPHostEntry ipHost = Dns.GetHostEntry(host);

@@ -1,7 +1,6 @@
 ﻿
 using Google.Protobuf.Protocol.Match;
 using Server.Contents.Manager;
-using System.Threading.Tasks;
 
 namespace Server.Contents
 {
@@ -34,7 +33,23 @@ namespace Server.Contents
             }
 
             // 3. 매칭 요청 처리 (Redis 접근이 필요)
-            Console.WriteLine("Let`s Match Start");
+            var ok = await RedisHelper.EnqueueMatchAsync(
+                new MatchRequest
+                {
+                    UserId = userId,
+                    CharacterId = packet.MatchInfo.CharacterId,
+                    SkinId = packet.MatchInfo.SkinId,
+                    ConnectionServerId = Config.ServerId,
+                    Mode = packet.MatchInfo.Mode
+                }   
+            );
+            if (!ok)
+            {
+                // TODO : ALREDY_IN_MATCH Enum 값을 추가해서 수정하기
+                SendFailResult(clientSession, S_Matching.Types.AuthResult.AccessDenied);
+                return;
+            }
+            Console.WriteLine("Enqueue Match Info In Redis");
         }
 
         private static void SendFailResult(ClientSession clientSession, S_Matching.Types.AuthResult result)
