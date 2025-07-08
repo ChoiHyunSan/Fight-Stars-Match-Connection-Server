@@ -15,6 +15,6 @@ class PacketHandler
             Console.WriteLine("Received invalid C_Matching packet.");
             return;
         }
-        await MatchManager.match(clientSession, packet);
+        await MatchManager.Match(clientSession, packet);
     }
 }
