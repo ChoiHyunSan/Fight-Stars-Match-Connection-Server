@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Server.Contents
 {
-    public class JwtUtils
+    public static class JwtUtils
     {
-        private static readonly string _secret = Config.JwtSecret; 
-        private static readonly TokenValidationParameters _validationParams = new()
+        private static readonly string Secret = Config.JwtSecret; 
+        private static readonly TokenValidationParameters ValidationParams = new()
         {
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret)),
             ClockSkew = TimeSpan.Zero
         };
 
@@ -22,7 +22,7 @@ namespace Server.Contents
             var handler = new JwtSecurityTokenHandler();
             try
             {
-                var principal = handler.ValidateToken(token, _validationParams, out _);
+                var principal = handler.ValidateToken(token, ValidationParams, out _);
                 return principal;
             }
             catch
@@ -33,7 +33,9 @@ namespace Server.Contents
 
         public static long GetUserId(ClaimsPrincipal principal)
         {
-            return long.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) ? userId : 0;
+            return long.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) 
+                ? userId 
+                : 0;
         }
     }
 }

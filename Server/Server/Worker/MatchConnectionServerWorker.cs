@@ -2,11 +2,13 @@
 using ServerCore;
 using System.Net;
 
-public class MatchConnectionServerWorker
-{
-    static Listener _listener = new Listener();
+namespace Server.Worker;
 
-    static void FlushRoom()
+internal static class MatchConnectionServerWorker
+{
+    static readonly Listener Listener = new Listener();
+
+    private static void FlushRoom()
     {
         JobTimer.Instance.Push(FlushRoom, 250);
     }
@@ -14,11 +16,11 @@ public class MatchConnectionServerWorker
     public static void Start(string[] args)
     {
         // DNS (Domain Name System)
-        IPHostEntry ipHost = Dns.GetHostEntry(Config.Host);
-        IPAddress ipAddr = ipHost.AddressList[0];
-        IPEndPoint endPoint = new IPEndPoint(ipAddr, Config.Port);
+        var ipHost = Dns.GetHostEntry(Config.Host);
+        var ipAddr = ipHost.AddressList[0];
+        var endPoint = new IPEndPoint(ipAddr, Config.Port);
 
-        _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
+        Listener.Init(endPoint, () => SessionManager.Instance.Generate());
         Console.WriteLine("Listening...");
 
         //FlushRoom();

@@ -1,14 +1,14 @@
-﻿namespace Server.Contents.Manager
-{
-    using StackExchange.Redis;
-    using System.Text.Json;
+﻿using System.Text.Json;
+using StackExchange.Redis;
 
-    public class RedisHelper
+namespace Server.Contents
+{
+    public static class RedisHelper
     {
-        private static readonly Lazy<ConnectionMultiplexer> _lazy =
+        private static readonly Lazy<ConnectionMultiplexer> Lazy =
             new(() => ConnectionMultiplexer.Connect(Config.RedisConn));
-        private static IDatabase DB => _lazy.Value.GetDatabase();
-        private static ConnectionMultiplexer Redis => _lazy.Value;
+        private static IDatabase Db => Lazy.Value.GetDatabase();
+        private static ConnectionMultiplexer Redis => Lazy.Value;
 
         private const string EnqueueLua = 
             @"if redis.call('SETNX', KEYS[2], 1) == 0 then return 0 end
@@ -19,15 +19,15 @@
         public static async Task<bool> EnqueueMatchAsync(MatchRequest req)
         {
             var json = JsonSerializer.Serialize(req);
-            var ok = (int)await DB.ScriptEvaluateAsync(
+            var ok = (int)await Db.ScriptEvaluateAsync(
                 EnqueueLua,
-                new RedisKey[] { $"match:queue:{req.Mode}", $"in_match:{req.UserId}" },
-                new RedisValue[] { json, Config.MatchTtl });
+                [$"match:queue:{req.Mode}", $"in_match:{req.UserId}"],
+                [json, Config.MatchTtl]);
             return ok == 1;
         }
 
         public static Task CancelMatchAsync(long uid) =>
-            DB.KeyDeleteAsync($"in_match:{uid}");
+            Db.KeyDeleteAsync($"in_match:{uid}");
 
         public static ISubscriber GetSubscriber()
         {

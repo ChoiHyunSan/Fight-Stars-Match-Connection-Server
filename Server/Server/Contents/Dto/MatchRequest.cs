@@ -10,7 +10,7 @@ namespace Server.Contents
         public string ConnectionServerId { get; set; }
         public string Mode { get; set; }
 
-        public static MatchRequest create(long userId, C_Matching packet)
+        public static MatchRequest Create(long userId, C_Matching packet)
         {
             return new MatchRequest
             {
