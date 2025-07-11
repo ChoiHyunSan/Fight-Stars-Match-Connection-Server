@@ -12,8 +12,8 @@ namespace Server.Contents
         private static bool TryAddMatchSession(long userId, ClientSession session)
         {
             if (!MatchSessions.TryAdd(userId, session)) return false;
-            session.UserId = userId;
-            session.Disconnected += OnSessionDisconnected;
+            session.userId = userId;
+            session.disconnected += OnSessionDisconnected;
             return true;
         }
 
@@ -25,8 +25,8 @@ namespace Server.Contents
 
         private static void OnSessionDisconnected(ClientSession session)
         {
-            MatchSessions.TryRemove(session.UserId, out _);
-            RedisHelper.CancelMatchAsync(session.UserId).Wait();
+            MatchSessions.TryRemove(session.userId, out _);
+            RedisHelper.CancelMatchAsync(session.userId).Wait();
         }
 
         public static async Task Match(ClientSession clientSession, C_Matching packet)

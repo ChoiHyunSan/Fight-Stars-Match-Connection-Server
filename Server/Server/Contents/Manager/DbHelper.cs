@@ -5,7 +5,7 @@ namespace Server.Contents.Manager
 {
     public static class DbHelper
     {
-        private static readonly string _connStr = Config.MySqlConn;
+        private static readonly string ConnStr = Config.MySqlConn;
 
         public static async Task<long> GetGameUserIdAsync(long authUserId)
         {
@@ -14,7 +14,7 @@ namespace Server.Contents.Manager
                     FROM game_users 
                     WHERE auth_user = @UserId LIMIT 1";
 
-            await using var conn = new MySqlConnection(_connStr);
+            await using var conn = new MySqlConnection(ConnStr);
             await conn.OpenAsync();
 
             return await conn.ExecuteScalarAsync<long>(sql, new { UserId = authUserId });
@@ -33,7 +33,7 @@ namespace Server.Contents.Manager
                     AND us.skin_id      = @SkinId
                 )";
 
-            await using var conn = new MySqlConnection(_connStr);
+            await using var conn = new MySqlConnection(ConnStr);
             await conn.OpenAsync();
 
             return await conn.ExecuteScalarAsync<bool>(sql,

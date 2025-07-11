@@ -20,7 +20,7 @@ namespace Server
 				int sessionId = ++_sessionId;
 
 				ClientSession session = new ClientSession();
-				session.SessionId = sessionId;
+				session.sessionId = sessionId;
 				_sessions.Add(sessionId, session);
 
 				Console.WriteLine($"Connected : {sessionId}");
@@ -43,7 +43,7 @@ namespace Server
 		{
 			lock (_lock)
 			{
-				_sessions.Remove(session.SessionId);
+				_sessions.Remove(session.sessionId);
 			}
 		}
 	}

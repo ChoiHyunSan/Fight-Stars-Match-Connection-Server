@@ -4,21 +4,21 @@ namespace Server.Contents
 {
     public class MatchRequest
     {
-        public long UserId { get; set; }
-        public long CharacterId { get; set; }
-        public long SkinId { get; set; }
-        public string ConnectionServerId { get; set; }
-        public string Mode { get; set; }
+        public long userId { get; set; }
+        public long characterId { get; set; }
+        public long skinId { get; set; }
+        public string connectionServerId { get; set; }
+        public string mode { get; set; }
 
         public static MatchRequest Create(long userId, C_Matching packet)
         {
             return new MatchRequest
             {
-                UserId = userId,
-                CharacterId = packet.MatchInfo.CharacterId,
-                SkinId = packet.MatchInfo.SkinId,
-                ConnectionServerId = Config.ServerId,
-                Mode = packet.MatchInfo.Mode
+                userId = userId,
+                characterId = packet.MatchInfo.CharacterId,
+                skinId = packet.MatchInfo.SkinId,
+                connectionServerId = Config.ServerId,
+                mode = packet.MatchInfo.Mode
             };
         }
     }

@@ -7,17 +7,17 @@ namespace Server
 {
 	public class ClientSession : PacketSession
 	{
-		public int SessionId { get; set; }
-        public long UserId { get; set; }
-        public event Action<ClientSession>? Disconnected;
+		public int sessionId { get; set; }
+        public long userId { get; set; }
+        public event Action<ClientSession>? disconnected;
 
         public void Send(IMessage packet)
 		{
-			string msgName = packet.Descriptor.Name.Replace("_", string.Empty);
-			MsgId msgId = (MsgId)Enum.Parse(typeof(MsgId), msgName);
+			var msgName = packet.Descriptor.Name.Replace("_", string.Empty);
+			var msgId = (MsgId)Enum.Parse(typeof(MsgId), msgName);
 
-			ushort size = (ushort)packet.CalculateSize();
-            byte[] sendBuffer = new byte[size + 4];
+			var size = (ushort)packet.CalculateSize();
+            var sendBuffer = new byte[size + 4];
             Array.Copy(BitConverter.GetBytes((ushort)size + 4), 0, sendBuffer, 0, sizeof(ushort));
             Array.Copy(BitConverter.GetBytes((ushort)msgId), 0, sendBuffer, 2, sizeof(ushort));
 			Array.Copy(packet.ToByteArray(), 0, sendBuffer, 4, size);
@@ -38,14 +38,14 @@ namespace Server
 		public override void OnDisconnected(EndPoint endPoint)
 		{
             Console.WriteLine($"OnDisConnected : {endPoint}");
-            Disconnected?.Invoke(this);
+            disconnected?.Invoke(this);
 
             SessionManager.Instance.Remove(this);
         }
 
 		public override void OnSend(int numOfBytes)
 		{
-			//Console.WriteLine($"Transferred bytes: {numOfBytes}");
+			
 		}
 	}
 }

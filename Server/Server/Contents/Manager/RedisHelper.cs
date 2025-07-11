@@ -21,7 +21,7 @@ namespace Server.Contents
             var json = JsonSerializer.Serialize(req);
             var ok = (int)await Db.ScriptEvaluateAsync(
                 EnqueueLua,
-                [$"match:queue:{req.Mode}", $"in_match:{req.UserId}"],
+                [$"match:queue:{req.mode}", $"in_match:{req.userId}"],
                 [json, Config.MatchTtl]);
             return ok == 1;
         }

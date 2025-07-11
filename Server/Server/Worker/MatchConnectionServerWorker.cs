@@ -22,8 +22,7 @@ internal static class MatchConnectionServerWorker
 
         Listener.Init(endPoint, () => SessionManager.Instance.Generate());
         Console.WriteLine("Listening...");
-
-        //FlushRoom();
+        
         JobTimer.Instance.Push(FlushRoom);
 
         while (true)
